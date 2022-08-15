@@ -6,9 +6,7 @@ import {
     HttpException,
     HttpStatus,
     Param,
-    Post,
-    UsePipes,
-    ValidationPipe
+    Post
 } from "@nestjs/common";
 import { REVIEW_NOT_FOUND } from './constants/review-error.constants';
 import { CreateReviewDto } from './dto/create-review.dto';
