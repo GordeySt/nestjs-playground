@@ -6,7 +6,10 @@ import {
     HttpException,
     HttpStatus,
     Param,
-    Post, UseGuards
+    Post,
+    UseGuards,
+    UsePipes,
+    ValidationPipe
 } from "@nestjs/common";
 import { REVIEW_NOT_FOUND } from './constants/review-error.constants';
 import { CreateReviewDto } from './dto/create-review.dto';
@@ -17,7 +20,7 @@ import { JwtAuthGuard } from "../auth/guards/jwt.guard";
 export class ReviewController {
     constructor(private readonly reviewService: ReviewService) { }
 
-    @UseGuards(JwtAuthGuard)
+    @UsePipes(new ValidationPipe())
     @Post('create')
     async create(@Body() dto: CreateReviewDto) {
        return this.reviewService.create(dto);
