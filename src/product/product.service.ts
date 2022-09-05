@@ -4,7 +4,6 @@ import { ProductModel } from "./product.model";
 import { ModelType } from "@typegoose/typegoose/lib/types";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { FindProductDto } from "./dto/find-product.dto";
-import { ReviewModel } from "../review/review.model";
 
 @Injectable()
 export class ProductService {
@@ -39,13 +38,23 @@ export class ProductService {
           from: 'Review',
           localField: '_id',
           foreignField: 'productId',
-          as: 'review'
+          as: 'reviews'
         }
       },
       {
         $addFields: {
-          reviewCount: { $size: '$review' },
-          reviewAvg: { $avg: '$review.rating' }
+          reviewCount: { $size: '$reviews' },
+          reviewAvg: { $avg: '$reviews.rating' },
+          reviews: {
+            $function: {
+              body: `function (reviews) {
+								reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+								return reviews;
+							}`,
+              args: ['$reviews'],
+              lang: 'js'
+            }
+          }
         }
       }
     ]).exec();
