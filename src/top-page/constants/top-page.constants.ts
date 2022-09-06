@@ -1,0 +1,1 @@
+export const NOT_FOUND_TOP_PAGE = "Top page with the following id not found";
