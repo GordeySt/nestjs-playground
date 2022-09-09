@@ -16,10 +16,13 @@ import { TopPageService } from "./top-page.service";
 import { CreateTopPageDto } from "./dto/create-top-page.dto";
 import { IdValidationPipe } from "../common/pipes/id-validation.pipe";
 import { NOT_FOUND_TOP_PAGE } from "./constants/top-page.constants";
+import { HhService } from "../hh/hh.service";
+import { Cron, CronExpression } from "@nestjs/schedule";
 
 @Controller('top-page')
 export class TopPageController {
-    constructor(private readonly topPageService: TopPageService) { }
+    constructor(private readonly topPageService: TopPageService,
+                private readonly hhService: HhService) { }
 
     @Post('create')
     async create(@Body() dto: CreateTopPageDto) {
@@ -69,5 +72,10 @@ export class TopPageController {
     @Post('find')
     async find(@Body() dto: FindTopPageDto) {
         return this.topPageService.findByCategory(dto.firstCategory);
+    }
+
+    @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, { name: 'test' })
+    async test() {
+        return await this.hhService.getData();
     }
 }
