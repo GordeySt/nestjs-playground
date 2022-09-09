@@ -10,16 +10,13 @@ export enum TopLevelCategory {
 
 export class HhData {
   @prop()
-  count: number;
+  companyName: string;
 
   @prop()
-  juniorSalary: number;
+  openVacanciesCount: number;
 
   @prop()
-  middleSalary: number;
-
-  @prop()
-  seniorSalary: number;
+  updatedAt: Date;
 }
 
 export class TopPageAdvantage {
